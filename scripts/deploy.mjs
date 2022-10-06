@@ -60,12 +60,12 @@ const getTs = (() => {
 
   step.text = "Building Client.";
 
-  await new Promise((resolve, reject) => {
-    exec("npm ci", {}, err => {
-      if (err) reject(err);
-      resolve();
-    });
-  });
+  // await new Promise((resolve, reject) => {
+  //   exec("npm ci", {}, err => {
+  //     if (err) reject(err);
+  //     resolve();
+  //   });
+  // });
 
   await new Promise((resolve, reject) => {
     exec("npm run build", { env }, err => {
@@ -76,12 +76,12 @@ const getTs = (() => {
 
   step.text = "Building Admin Console.";
 
-  await new Promise((resolve, reject) => {
-    exec("npm ci", { cwd: "./admin" }, err => {
-      if (err) reject(err);
-      resolve();
-    });
-  });
+  // await new Promise((resolve, reject) => {
+  //   exec("npm ci", { cwd: "./admin" }, err => {
+  //     if (err) reject(err);
+  //     resolve();
+  //   });
+  // });
 
   await new Promise((resolve, reject) => {
     exec("npm run build", { cwd: "./admin", env }, err => {
@@ -100,6 +100,8 @@ const getTs = (() => {
     });
   });
   step.text = "Preparing Deploy.";
+
+  await new Promise(res => setTimeout(res, 5000));
 
   step.text = "Packaging Build.";
   tar.c({ sync: true, gzip: true, C: path.resolve("dist"), file: "_build.tar.gz" }, ["."]);
