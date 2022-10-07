@@ -483,7 +483,7 @@ class AvatarEditor extends Component {
           </a>
         )}
         Hello World
-        <iframe id="frame" class="frame" allow="camera *; microphone *; clipboard-write" src="https://demo.readyplayer.me/avatar?frameApi"></iframe>
+        <iframe id="frame" class="frame" allow="camera *; microphone *; clipboard-write" src="https://vr.readyplayer.me/avatar?frameApi"></iframe>
       </div>
     );
   }
