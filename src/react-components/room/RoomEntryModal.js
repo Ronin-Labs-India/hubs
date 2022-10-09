@@ -38,8 +38,8 @@ export function RoomEntryModal({
         <div className={styles.modal_content}>
           <div className={styles.logo_wrapper}>
             <div>
-              <img src={dLogo} className={styleUtils.dLogo} />
-              <img src={mLogo} className={styleUtils.mLogo}/>
+              <img src={dLogo} className={styles.dLogo} />
+              <img src={mLogo} className={styles.mLogo}/>
             </div>
           </div>
           <div className={styles.welcome_txt}>

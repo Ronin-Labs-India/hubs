@@ -9,7 +9,7 @@ $mobile-breakpoint-width: 450px;
     line-height: 1.2;
   }
 
-  & > :last-child {
+  &> :last-child {
     margin-top: auto;
   }
 }
@@ -64,7 +64,7 @@ $mobile-breakpoint-width: 450px;
   margin-bottom: 10px;
 }
 
-:local(.action-container) {  
+:local(.action-container) {
   height: 48px;
   margin-bottom: 10px;
   display: flex;
@@ -72,7 +72,7 @@ $mobile-breakpoint-width: 450px;
   gap: 10px;
 }
 
-:local(.selection-container) {  
+:local(.selection-container) {
   display: flex;
   flex-direction: column;
   flex: auto;
@@ -80,7 +80,7 @@ $mobile-breakpoint-width: 450px;
   align-self: stretch;
 }
 
-:local(.selection-input) {  
+:local(.selection-input) {
   width: 100%;
   max-width: none;
 }
@@ -120,4 +120,109 @@ $mobile-breakpoint-width: 450px;
 :local(.level-bar) {
   width: 24px;
   height: 100%;
+}
+
+
+// our code comes here
+:local(.modal_wrapper) {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(#1d1d1d, .4);
+  backdrop-filter: blur(3px);
+}
+
+:local(.modal_container) {
+  width: 90%;
+  max-width: 1024px;
+  position: relative;
+
+  &>div {
+    max-width: 100% !important;
+    box-shadow: 0px 4px 16px #070A2382;
+    overflow: hidden;
+    margin: 0;
+    border: none;
+  }
+}
+
+:local(.modal_content) {
+  display: flex;
+  flex-direction: column;
+
+  @media(min-width: theme.$breakpoint-lg) {
+    flex-direction: row;
+  }
+}
+
+:local(.audio_setup_txt) {
+  box-shadow: 0px 12px 5px rgb(0 0 0 / 26%);
+
+  @media(min-width: theme.$breakpoint-lg) {
+    width: 460px;
+    padding: 40px 25px;
+  }
+}
+
+:local(.control_wrapper) {
+  flex: 1;
+}
+
+:local(.welcome) {
+  display: block;
+  color: #070A23;
+  font: normal normal 600 27px/46px Poppins;
+
+  @media(min-width: theme.$breakpoint-lg) {
+    font: normal normal 500 46px/70px Poppins;
+    line-height: 40px;
+  }
+}
+
+:local(.org_name) {
+  display: block;
+  color: #070A23;
+  font: normal normal 600 52px/46px Poppins;
+
+  @media(min-width: theme.$breakpoint-lg) {
+    font: normal normal 600 70px/70px Poppins;
+  }
+}
+
+:local(.reg_txt) {
+  display: block;
+  color: #070A23;
+  padding-top: 10px;
+
+  @media(min-width: theme.$breakpoint-lg) {
+    font: normal normal normal 25px/30px Poppins;
+    padding-top: 15px;
+  }
+}
+
+:local(.enterRoomBtn) {
+  color: #fff;
+  background-color: theme.$hdfcRed;
+  text-transform: uppercase;
+  font-size: 18px;
+  font-weight: 100;
+  height: 45px;
+  font-weight: 500;
+  font-size: 16px;
+  border-radius: 28px;
+  border-width: 0;
+  border-color: transparent;
+  transition: background-color 0.1s ease-in-out;
+  white-space: nowrap;
+  padding: 0 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    box-shadow: 0px 0px 11px 5px rgba(theme.$hdfcRed, .1);
+  }
 }

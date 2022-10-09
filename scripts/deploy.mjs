@@ -35,6 +35,7 @@ const getTs = (() => {
 
   const res = await fetch(`https://${host}/api/ita/configs/hubs`, { headers });
   const hubsConfigs = await res.json();
+  console.log(hubsConfigs);
   const buildEnv = {};
   for (const [k, v] of Object.entries(hubsConfigs.general)) {
     buildEnv[k.toUpperCase()] = v;

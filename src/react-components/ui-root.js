@@ -95,6 +95,8 @@ import { SpectatingLabel } from "./room/SpectatingLabel";
 import { SignInMessages } from "./auth/SignInModal";
 import { MediaDevicesEvents } from "../utils/media-devices-utils";
 import { TERMS, PRIVACY } from "../constants";
+import ExitRoomButton from "./room/ExitRoomBtn";
+import SettingButton from "./room/SettingBtn";
 
 const avatarEditorDebug = qsTruthy("avatarEditorDebug");
 
@@ -809,13 +811,13 @@ class UIRoot extends Component {
             if (promptForNameAndAvatarBeforeEntry || !this.props.forcedVREntryType) {
               this.setState({ entering: true });
               this.props.hubChannel.sendEnteringEvent();
-
-              if (promptForNameAndAvatarBeforeEntry) {
-                this.pushHistoryState("entry_step", "profile");
-              } else {
-                this.onRequestMicPermission();
-                this.pushHistoryState("entry_step", "audio");
-              }
+              this.pushHistoryState("entry_step", "profile")
+              // if (promptForNameAndAvatarBeforeEntry) {
+              //   this.pushHistoryState("entry_step", "profile");
+              // } else {
+              //   this.onRequestMicPermission();
+              //   this.pushHistoryState("entry_step", "audio");
+              // }
             } else {
               this.handleForceEntry();
             }
@@ -1416,6 +1418,10 @@ class UIRoot extends Component {
                         showAudioDebug={showAudioDebugPanel}
                       />
                     )}
+                    {this.state.entered && <ExitRoomButton onClick={() => { 
+                        this.showNonHistoriedDialog(LeaveRoomModal, { destinationUrl: "/", reason: LeaveReason.leaveRoom});
+                      }}/> }
+                    {this.state.entered && <SettingButton onClick={() => {this.setState({ showPrefs: true });}}/>}
                   </>
                 }
                 sidebar={
@@ -1513,12 +1519,13 @@ class UIRoot extends Component {
                   )
                 }
                 modal={this.state.dialog}
-                toolbarLeft={
-                  <InvitePopoverContainer
-                    hub={this.props.hub}
-                    hubChannel={this.props.hubChannel}
-                    scene={this.props.scene}
-                  />
+                enteredRoom={this.state.entered}
+                toolbarLeft={null
+                  // <InvitePopoverContainer
+                  //   hub={this.props.hub}
+                  //   hubChannel={this.props.hubChannel}
+                  //   scene={this.props.scene}
+                  // />
                 }
                 toolbarCenter={
                   <>

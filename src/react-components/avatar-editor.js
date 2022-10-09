@@ -103,7 +103,6 @@ class AvatarEditor extends Component {
   constructor(props) {
     super(props);
     this.inputFiles = {};
-    this.iframeElem = React.createRef();
   }
 
   componentDidMount = async () => {
@@ -136,10 +135,6 @@ class AvatarEditor extends Component {
         });
       }
     }
-    // This is iframe loading
-    const iframeNode = this.iframeElem.current;
-    const subdomain = 'demo';
-    iframeNode.src = `https://${subdomain}.readyplayer.me/avatar?frameApi`
   };
 
   createOrUpdateAvatar = avatar => {
@@ -482,8 +477,265 @@ class AvatarEditor extends Component {
             </i>
           </a>
         )}
-        Hello World
-        <iframe id="frame" class="frame" allow="camera *; microphone *; clipboard-write" src="https://demo.readyplayer.me/avatar?frameApi"></iframe>
+        {!this.state.avatar ? (
+          <div className="loader">
+            <div className="loader-center" />
+          </div>
+        ) : (
+          <form onSubmit={this.uploadAvatar} className="center">
+            {this.textField("name", "Name", false, true)}
+            <div className="split">
+              <div className="form-body">
+                {debug &&
+                  this.textField(
+                    "avatar_id",
+                    intl.formatMessage({ id: "avatar-editor.field.avatar-id", defaultMessage: "Avatar ID" }),
+                    true
+                  )}
+                {debug &&
+                  this.textField(
+                    "parent_avatar_id",
+                    intl.formatMessage({
+                      id: "avatar-editor.field.parent-avatar-id",
+                      defaultMessage: "Parent Avatar ID"
+                    })
+                  )}
+                {debug &&
+                  this.textField(
+                    "parent_avatar_listing_id",
+                    intl.formatMessage({
+                      id: "avatar-editor.field.parent-avatar-listing-id",
+                      defaultMessage: "Parent Avatar Listing ID"
+                    })
+                  )}
+                {debug &&
+                  this.textarea(
+                    "description",
+                    intl.formatMessage({
+                      id: "avatar-editor.field.description",
+                      defaultMessage: "Description"
+                    })
+                  )}
+                {!this.props.avatarId &&
+                  this.selectListingGrid(
+                    "parent_avatar_listing_id",
+                    intl.formatMessage({
+                      id: "avatar-editor.field.model",
+                      defaultMessage: "Model"
+                    })
+                  )}
+
+                <label>
+                  <FormattedMessage id="avatar-editor.skin-section" defaultMessage="Skin" />
+                </label>
+                {this.mapField(
+                  "base_map",
+                  intl.formatMessage({
+                    id: "avatar-editor.field.base-map",
+                    defaultMessage: "Base Map"
+                  }),
+                  "image/*"
+                )}
+                <details>
+                  <summary>
+                    <FormattedMessage id="avatar-editor.advanced-section" defaultMessage="Advanced" />
+                  </summary>
+                  {this.mapField(
+                    "emissive_map",
+                    intl.formatMessage({
+                      id: "avatar-editor.field.emissive-map",
+                      defaultMessage: "Emissive Map"
+                    }),
+                    "image/*"
+                  )}
+                  {this.mapField(
+                    "normal_map",
+                    intl.formatMessage({
+                      id: "avatar-editor.field.normal-map",
+                      defaultMessage: "Normal Map"
+                    }),
+                    "image/*"
+                  )}
+                  {this.mapField(
+                    "orm_map",
+                    intl.formatMessage({
+                      id: "avatar-editor.field.orm-map",
+                      defaultMessage: "ORM Map"
+                    }),
+                    "image/*",
+                    false,
+                    intl.formatMessage({
+                      id: "avatar-editor.field.orm-map-info",
+                      defaultMessage: "Occlussion (r), Roughness (g), Metallic (b)"
+                    })
+                  )}
+                </details>
+
+                <label>
+                  <FormattedMessage id="avatar-editor.share-settings" defaultMessage="Share Settings" />
+                </label>
+                {this.checkbox(
+                  "allow_promotion",
+                  intl.formatMessage(
+                    {
+                      id: "avatar-editor.field.allow-promotion",
+                      defaultMessage: "Allow {companyName} to promote your avatar, and show it in search results."
+                    },
+                    { companyName: configs.translation("company-name") }
+                  ),
+                  <span>
+                    <FormattedMessage
+                      id="avatar-editor.field.allow-promotion-checkbox"
+                      defaultMessage="Allow <a>Promotion</a>"
+                      values={{
+                        a: chunks => (
+                          <a
+                            href={configs.link("promotion", "https://github.com/mozilla/hubs/blob/master/PROMOTION.md")}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            {chunks}
+                          </a>
+                        )
+                      }}
+                    />
+                  </span>
+                )}
+                {this.checkbox(
+                  "allow_remixing",
+                  intl.formatMessage({
+                    id: "avatar-editor.field.allow-remixing",
+                    defaultMessage: "Allow others to edit and re-publish your avatar as long as they give you credit."
+                  }),
+                  <span>
+                    <FormattedMessage
+                      id="avatar-editor.field.allow-remixing-checkbox"
+                      defaultMessage="Allow <a>Remixing</a> <license>(under <licenselink>CC-BY 3.0</licenselink>)</license>"
+                      values={{
+                        a: chunks => (
+                          <a
+                            href={configs.link("remixing", "https://github.com/mozilla/hubs/blob/master/REMIXING.md")}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            {chunks}
+                          </a>
+                        ),
+                        license: chunks => <span className="license">{chunks}</span>,
+                        licenselink: chunks => (
+                          <a
+                            href="https://creativecommons.org/licenses/by/3.0/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            {chunks}
+                          </a>
+                        )
+                      }}
+                    />
+                  </span>
+                )}
+                {this.textField(
+                  "creatorAttribution",
+                  intl.formatMessage({
+                    id: "avatar-editor.field.creator-attribution",
+                    defaultMessage: "Attribution (optional)"
+                  }),
+                  false,
+                  false
+                )}
+                {/* {this.mapField("ao_map", "AO Map", "images/\*", true)} */}
+                {/* {this.mapField("metallic_map", "Metallic Map", "image/\*", true)} */}
+                {/* {this.mapField("roughness_map", "Roughness Map", "image/\*", true)} */}
+              </div>
+              <AvatarPreview
+                className="preview"
+                avatarGltfUrl={this.state.previewGltfUrl}
+                onGltfLoaded={this.handleGltfLoaded}
+                {...this.inputFiles}
+                ref={p => (this.preview = p)}
+              />
+            </div>
+            <div className="info">
+              <IfFeature name="show_avatar_editor_link">
+                <p>
+                  <FormattedMessage
+                    id="avatar-editor.external-editor-info"
+                    defaultMessage="Create a custom skin for this avatar:"
+                  />{" "}
+                  {this.state.editorLinks.map(({ name, url }) => (
+                    <a
+                      key={name}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      href={url.replace("$AVATAR_GLTF", encodeURIComponent(this.state.previewGltfUrl))}
+                    >
+                      {name}
+                    </a>
+                  ))}
+                </p>
+              </IfFeature>
+              <IfFeature name="show_avatar_pipelines_link">
+                <p>
+                  <FormattedMessage
+                    id="avatar-editor.info"
+                    defaultMessage="Find more custom avatar resources <a>here</a>"
+                    values={{
+                      a: chunks => (
+                        <a
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          href="https://github.com/MozillaReality/hubs-avatar-pipelines"
+                        >
+                          {chunks}
+                        </a>
+                      )
+                    }}
+                  />
+                </p>
+              </IfFeature>
+            </div>
+            <div>
+              <button disabled={this.state.uploading} className="form-submit" type="submit">
+                {this.state.uploading ? (
+                  <FormattedMessage id="avatar-editor.submit-button.uploading" defaultMessage="Uploading..." />
+                ) : (
+                  <FormattedMessage id="avatar-editor.submit-button.save" defaultMessage="Save" />
+                )}
+              </button>
+            </div>
+            {!this.props.hideDelete && (
+              <div className="delete-avatar">
+                {this.state.confirmDelete ? (
+                  <span>
+                    <FormattedMessage
+                      id="avatar-editor.delete-avatar.confirmation-prompt"
+                      defaultMessage="Are you sure?"
+                    />{" "}
+                    <a onClick={this.deleteAvatar}>
+                      <FormattedMessage id="avatar-editor.delete-avatar.confirm" defaultMessage="yes" />
+                    </a>{" "}
+                    /{" "}
+                    <a onClick={() => this.setState({ confirmDelete: false })}>
+                      <FormattedMessage id="avatar-editor.delete-avatar.cancel" defaultMessage="no" />
+                    </a>
+                  </span>
+                ) : (
+                  <a
+                    onClick={() => this.setState({ confirmDelete: true })}
+                    title={avatar.has_listings ? intl.formatMessage(delistAvatarInfoMessage) : ""}
+                  >
+                    {avatar.has_listings ? (
+                      <FormattedMessage id="avatar-editor.delist-avatar-button" defaultMessage="Delist Avatar" />
+                    ) : (
+                      <FormattedMessage id="avatar-editor.delete-avatar-button" defaultMessage="Delete Avatar" />
+                    )}
+                  </a>
+                )}
+              </div>
+            )}
+          </form>
+        )}
       </div>
     );
   }
