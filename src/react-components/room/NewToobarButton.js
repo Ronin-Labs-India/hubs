@@ -29,6 +29,7 @@ export const NewToolbarButton = forwardRef(
         ref={ref}
         className={classNames(
           styles.newToolbarButton,
+          {[styles.btnActive]: selected}
         )}
         {...rest}
       >

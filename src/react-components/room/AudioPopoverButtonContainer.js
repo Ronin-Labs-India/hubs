@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { AudioPopoverButton } from "./AudioPopoverButton";
 import { useMicrophoneStatus } from "./useMicrophoneStatus";
@@ -11,17 +11,19 @@ import styles from "./AudioPopover.scss"
 
 export const AudioPopoverButtonContainer = ({ scene, initiallyVisible, content }) => {
   const { isMicMuted, toggleMute, isMicEnabled } = useMicrophoneStatus(scene);
+  const [popup, setPopup] = useState(false)
   return (
     <div className={styles.mic_wrapper}>
       <AudioPopoverButton
       initiallyVisible={initiallyVisible}
       content={content}
+      tooglePopup={setPopup}
       micButton={
         <ToolbarMicButton
           scene={scene}
           icon={isMicMuted || !isMicEnabled ? <MicrophoneMutedIcon /> : <MicrophoneIcon />}
           // label={<FormattedMessage id="voice-button-container.label" defaultMessage="Voice" />}
-          preset="basic"
+          preset={popup? "activeBtn": "basic"}
           onClick={toggleMute}
           statusColor={isMicMuted || !isMicEnabled ? "disabled" : "enabled"}
           type={"right"}

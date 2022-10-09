@@ -48,21 +48,32 @@
   height: 96px;
 }
 
+:local(.activeBtn) {
+  :local(.icon-container) {
+    border-color: theme.$hdfcRed;
+    background-color: theme.$hdfcRed;
+
+    svg {
+      color: #fff
+    }
+  }
+}
+
 :local(.basic),
 :local(.transparent) {
   :local(.icon-container) {
-    border-color: theme.$toolbar-basic-border-color;
-    background-color: transparent;
+    border-color: theme.$hdfcRed;
+    background-color: #fff;
 
     svg {
-      color: theme.$toolbar-basic-icon-color;
+      color: theme.$hdfcRed;
     }
   }
 
-  &:hover :local(.icon-container) {
-    border: 1px solid theme.$toolbar-basic-border-color;
-    background-color: theme.$basic-color-hover;
-  }
+  // &:hover :local(.icon-container) {
+  //   border: 1px solid theme.$toolbar-basic-border-color;
+  //   background-color: theme.$basic-color-hover;
+  // }
 
   &:active :local(.icon-container) {
     border-color: theme.$basic-color-pressed;
@@ -556,41 +567,84 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 45px;
-  width: 120px;
-  border-radius: 30px;
+  height: 40px;
+  width: 40px;
+  border-radius: 100%;
   border: 1px solid theme.$hdfcRed;
   background: #fff;
   color: theme.$hdfcRed;
   box-shadow: 0px 3px 8px #D1141924;
   flex-direction: column;
 
+  @media(min-width: theme.$breakpoint-lg) and (min-height: theme.$breakpoint-vr) {
+    height: 45px;
+    width: 120px;
+    border-radius: 30px;
+  }
+
   & label {
     font-weight: 600;
     margin-top: 5px;
+    display: none;
+
+    @media(min-width: theme.$breakpoint-lg) and (min-height: theme.$breakpoint-vr) {
+      display: block;
+    }
   }
 }
+
+:local(.btnActive) {
+  background: theme.$hdfcRed;
+
+  & label {
+    color: #fff
+  }
+
+  svg {
+    color: #fff
+  }
+
+  path {
+    fill: #fff;
+  }
+}
+
 
 :local(.avatarButton) {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 45px;
-  width: 120px;
-  border-radius: 30px;
+  height: 40px;
+  width: 40px;
+  border-radius: 100%;
   border: 1px solid theme.$hdfcRed;
   background: #fff;
   color: theme.$hdfcRed;
   box-shadow: 0px 3px 8px #D1141924;
   flex-direction: column;
 
+  @media(min-width: theme.$breakpoint-lg) and (min-height: theme.$breakpoint-vr) {
+    height: 45px;
+    width: 120px;
+    border-radius: 30px;
+  }
+
   & svg {
-    width: 20px;
+    width: 15px;
+
+    @media(min-width: theme.$breakpoint-lg) and (min-height: theme.$breakpoint-vr) {
+      width: 20px;
+    }
   }
 
   & label {
     font-weight: 600;
     margin-top: 5px;
     font-size: 10px;
+    display: none;
+
+    @media(min-width: theme.$breakpoint-lg) and (min-height: theme.$breakpoint-vr) {
+      display: block;
+    }
   }
 }

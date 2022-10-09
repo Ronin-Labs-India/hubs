@@ -19,16 +19,18 @@ $mobile-breakpoint-width: 450px;
   gap: 24px 24px;
 
   @media(max-width: $mobile-breakpoint-width) {
-    flex-flow: wrap;
+    // flex-flow: wrap;
+    justify-content: space-between;
+    gap: 0;
   }
 }
 
 :local(.audio-io-container) {
-  width: 200px;
+  width: 170px;
   position: relative;
   border-radius: theme.$border-radius-regular;
   display: flex;
-  flex: auto;
+
   flex-direction: column;
   gap: 10px 10px;
   padding: 20px;
@@ -37,6 +39,11 @@ $mobile-breakpoint-width: 450px;
   background-color: theme.$transparent;
 
   transition: background-color 0.1s ease-in-out, border-color 0.1s ease-in-out;
+
+  @media(min-width: theme.$breakpoint-lg) {
+    flex: auto;
+    width: 200px;
+  }
 }
 
 :local(.icon-enabled) {
@@ -160,6 +167,7 @@ $mobile-breakpoint-width: 450px;
 
 :local(.audio_setup_txt) {
   box-shadow: 0px 12px 5px rgb(0 0 0 / 26%);
+  padding: 20px;
 
   @media(min-width: theme.$breakpoint-lg) {
     width: 460px;
@@ -169,6 +177,13 @@ $mobile-breakpoint-width: 450px;
 
 :local(.control_wrapper) {
   flex: 1;
+
+  @media (min-width: theme.$breakpoint-lg) {
+    min-height: 450px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 :local(.welcome) {
@@ -225,4 +240,37 @@ $mobile-breakpoint-width: 450px;
   &:hover {
     box-shadow: 0px 0px 11px 5px rgba(theme.$hdfcRed, .1);
   }
+}
+
+:local(.desktop_inst) {
+  position: relative;
+  padding-top: 45%;
+  width: 100%;
+
+  & img {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    left: 0;
+    height: 100%;
+    object-fit: contain;
+  }
+
+}
+
+:local(.mobile_inst) {
+  position: relative;
+  padding-top: 146%;
+  width: 87%;
+  margin: auto;
+
+  & img {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    left: 0;
+    height: 100%;
+    object-fit: contain;
+  }
+
 }

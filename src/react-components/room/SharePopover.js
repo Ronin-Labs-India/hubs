@@ -5,6 +5,7 @@ import { Popover } from "../popover/Popover";
 import { ToolbarButton } from "../input/ToolbarButton";
 import { ReactComponent as ShareIcon } from "../icons/Share.svg";
 import { defineMessage, useIntl } from "react-intl";
+import { NewToolbarButton } from "./NewToobarButton";
 
 const sharePopoverTitle = defineMessage({
   id: "share-popover.title",
@@ -30,7 +31,7 @@ export function SharePopoverButton({ items }) {
     const Icon = item.icon;
     console.log('=-=-=-=-==-=-==-=-=-')
     return (
-      <ToolbarButton
+      <NewToolbarButton
         icon={<Icon />}
         onClick={() => {
           if (item.onSelect) {
@@ -54,8 +55,7 @@ export function SharePopoverButton({ items }) {
     >
       {({ togglePopover, popoverVisible, triggerRef }) => (
         <>
-        <div>adfdsf</div>
-        <ToolbarButton
+        <NewToolbarButton
           ref={triggerRef}
           icon={<ShareIcon />}
           selected={popoverVisible}

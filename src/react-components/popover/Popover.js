@@ -44,7 +44,8 @@ export function Popover({
   onChangeVisible,
   popoverApiRef,
   popoverClass,
-  arrowClass
+  arrowClass,
+  tooglePopup=() => {}
 }) {
   const [_visible, _setVisible] = useState(initiallyVisible);
   const visible = isVisible === undefined ? _visible : isVisible;
@@ -106,7 +107,6 @@ export function Popover({
         window.addEventListener("mousedown", onClick);
         window.addEventListener("keydown", onKeyDown);
       }
-
       return () => {
         window.removeEventListener("mousedown", onClick);
         window.removeEventListener("keydown", onKeyDown);
@@ -129,6 +129,9 @@ export function Popover({
     },
     [fullscreen, visible]
   );
+  useEffect(() => {
+    tooglePopup(visible)
+  },[visible])
 
   return (
     <>

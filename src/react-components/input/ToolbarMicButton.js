@@ -32,7 +32,7 @@ export function ToolbarMicButton({ scene, ...rest }) {
   return (
     <ToolbarButton
       ref={setRef}
-      label={<FormattedMessage id="voice-button-container.label" defaultMessage="Voice" />}
+      // label={<FormattedMessage id="voice-button-container.label" defaultMessage="Voice" />}
       preset="basic"
       type={"right"}
       {...rest}

@@ -11,7 +11,7 @@ const invitePopoverTitle = defineMessage({
   defaultMessage: "Audio Settings"
 });
 
-export const AudioPopoverButton = ({ initiallyVisible, content, micButton }) => {
+export const AudioPopoverButton = ({ initiallyVisible, content, micButton,tooglePopup }) => {
   const intl = useIntl();
   const title = intl.formatMessage(invitePopoverTitle);
   const popoverApiRef = useRef();
@@ -24,13 +24,14 @@ export const AudioPopoverButton = ({ initiallyVisible, content, micButton }) => 
       offsetDistance={28}
       initiallyVisible={initiallyVisible}
       popoverApiRef={popoverApiRef}
+      tooglePopup={tooglePopup}
     >
       {({ togglePopover, popoverVisible, triggerRef }) => (
         <div className={styles.buttonsContainer}>
           <ToolbarButton
             ref={triggerRef}
             icon={<ArrowIcon />}
-            preset="basic"
+            preset={popoverVisible ? "activeBtn" :"basic"}
             selected={popoverVisible}
             onClick={togglePopover}
             type={"left"}

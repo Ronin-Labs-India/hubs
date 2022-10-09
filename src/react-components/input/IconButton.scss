@@ -3,18 +3,20 @@
 :local(.icon-button) {
   display: flex;
   align-items: center;
-  background: transparent;
+  background: theme.$hdfcRed;
   border-width: 0;
   border-color: transparent;
   font-size: theme.$font-size-xs;
   font-weight: theme.$font-weight-bold;
   cursor: pointer;
+  padding: 3px;
+  border-radius: 4px;
 
   svg {
-    color: theme.$text1-color;
+    color: #fff;
   }
 
-  & > * {
+  &>* {
     margin-right: 4px;
 
     &:last-child {
@@ -61,20 +63,23 @@
       outline: none;
     }
 
-    &::-webkit-file-upload-button, &::file-selector-button {
+    &::-webkit-file-upload-button,
+    &::file-selector-button {
       visibility: hidden;
     }
   }
 
   &:local(.compact-sm) {
-    @media(max-width: theme.$breakpoint-lg - 1), (max-height: theme.$breakpoint-vr - 1) {
+
+    @media(max-width: theme.$breakpoint-lg - 1),
+    (max-height: theme.$breakpoint-vr - 1) {
       flex-direction: column;
       justify-content: center;
 
-      & > * {
+      &>* {
         margin-right: 0;
         margin-bottom: 4px;
-    
+
         &:last-child {
           margin-bottom: 0;
         }

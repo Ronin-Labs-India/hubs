@@ -64,10 +64,12 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding-bottom: 40px;
+  padding-bottom: 50px;
 }
 
 :local(.logo_wrapper) {
+  margin-top: 5px;
+
   & svg {
     width: 78px;
   }

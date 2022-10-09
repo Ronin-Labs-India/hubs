@@ -132,32 +132,43 @@ export function SharePopoverContainer({ scene, hubChannel }) {
     toggleShareCameraToAvatar
   } = useShare(scene, hubChannel);
 
+  // const items = [
+  //   canShareCamera && {
+  //     id: "camera",
+  //     icon: VideoIcon,
+  //     color: "accent5",
+  //     label: <FormattedMessage id="share-popover.source.camera" defaultMessage="Camera" />,
+  //     onSelect: toggleShareCamera,
+  //     active: sharingSource === MediaDevices.CAMERA
+  //   },
+  //   canShareScreen && {
+  //     id: "screen",
+  //     icon: DesktopIcon,
+  //     color: "accent5",
+  //     label: <FormattedMessage id="share-popover.source.screen" defaultMessage="Screen" />,
+  //     onSelect: toggleShareScreen,
+  //     active: sharingSource === MediaDevices.SCREEN
+  //   },
+  //   canShareCameraToAvatar && {
+  //     id: "camera-to-avatar",
+  //     icon: AvatarIcon,
+  //     color: "accent5",
+  //     label: <FormattedMessage id="share-popover.source.avatar-camera" defaultMessage="Avatar Camera" />,
+  //     onSelect: toggleShareCameraToAvatar,
+  //     active: sharingSource === "camera-to-avatar"
+  //   }
+  // ];
   const items = [
-    canShareCamera && {
-      id: "camera",
-      icon: VideoIcon,
-      color: "accent5",
-      label: <FormattedMessage id="share-popover.source.camera" defaultMessage="Camera" />,
-      onSelect: toggleShareCamera,
-      active: sharingSource === MediaDevices.CAMERA
-    },
-    canShareScreen && {
+    {
       id: "screen",
       icon: DesktopIcon,
       color: "accent5",
       label: <FormattedMessage id="share-popover.source.screen" defaultMessage="Screen" />,
       onSelect: toggleShareScreen,
       active: sharingSource === MediaDevices.SCREEN
-    },
-    canShareCameraToAvatar && {
-      id: "camera-to-avatar",
-      icon: AvatarIcon,
-      color: "accent5",
-      label: <FormattedMessage id="share-popover.source.avatar-camera" defaultMessage="Avatar Camera" />,
-      onSelect: toggleShareCameraToAvatar,
-      active: sharingSource === "camera-to-avatar"
     }
   ];
+  console.log(canShareCamera, canShareScreen, canShareCameraToAvatar)
   return <SharePopoverButton items={items} />;
 }
 

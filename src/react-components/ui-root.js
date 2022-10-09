@@ -812,19 +812,20 @@ class UIRoot extends Component {
           roomName={this.props.hub.name}
           showJoinRoom={!this.state.waitingOnAudio && !this.props.entryDisallowed}
           onJoinRoom={() => {
-            if (promptForNameAndAvatarBeforeEntry || !this.props.forcedVREntryType) {
-              this.setState({ entering: true });
-              this.props.hubChannel.sendEnteringEvent();
-              this.pushHistoryState("entry_step", "profile")
-              // if (promptForNameAndAvatarBeforeEntry) {
-              //   this.pushHistoryState("entry_step", "profile");
-              // } else {
-              //   this.onRequestMicPermission();
-              //   this.pushHistoryState("entry_step", "audio");
-              // }
-            } else {
-              this.handleForceEntry();
-            }
+            this.setState({ entering: true });
+            this.props.hubChannel.sendEnteringEvent();
+            this.pushHistoryState("entry_step", "profile")
+            // if (promptForNameAndAvatarBeforeEntry || !this.props.forcedVREntryType) {
+              
+            //   // if (promptForNameAndAvatarBeforeEntry) {
+            //   //   this.pushHistoryState("entry_step", "profile");
+            //   // } else {
+            //   //   this.onRequestMicPermission();
+            //   //   this.pushHistoryState("entry_step", "audio");
+            //   // }
+            // } else {
+            //   this.handleForceEntry();
+            // }
           }}
           showEnterOnDevice={!this.state.waitingOnAudio && !this.props.entryDisallowed && !isMobileVR}
           onEnterOnDevice={() => this.attemptLink()}
@@ -891,6 +892,8 @@ class UIRoot extends Component {
         scene={this.props.scene}
         onEnterRoom={this.onAudioReadyButton}
         onBack={() => this.props.history.goBack()}
+        isMobile={isMobile}
+        isVR={isMobileVR}
       />
     );
   };
@@ -1558,12 +1561,12 @@ class UIRoot extends Component {
                         <AvatarButton onClick={() => {this.props.mediaSearchStore.sourceNavigate("avatars")}} />
                         <PenButton onClick={() => {this.props.scene.emit("penButtonPressed")}} />
                         <SharePopoverContainer scene={this.props.scene} hubChannel={this.props.hubChannel} />
-                        <PlacePopoverContainer
+                        {/* <PlacePopoverContainer
                           scene={this.props.scene}
                           hubChannel={this.props.hubChannel}
                           mediaSearchStore={this.props.mediaSearchStore}
                           showNonHistoriedDialog={this.showNonHistoriedDialog}
-                        />
+                        /> */}
                         <AudioPopoverContainer scene={this.props.scene} />
                         <SelfieButton onClick={() => this.props.scene.emit("action_toggle_camera")} />
                         {this.props.hubChannel.can("spawn_emoji") && (
@@ -1599,16 +1602,7 @@ class UIRoot extends Component {
                           onClick={() => exit2DInterstitialAndEnterVR(true)}
                         />
                       )}
-                    {entered &&
-                      isMobileVR && (
-                        <ToolbarButton
-                          icon={<VRIcon />}
-                          preset="accept"
-                          label={<FormattedMessage id="toolbar.enter-vr-button" defaultMessage="Enter VR" />}
-                          onClick={() => exit2DInterstitialAndEnterVR(true)}
-                        />
-                      )}
-                    {entered && (
+                    {/* {entered && (
                       <ToolbarButton
                         icon={<LeaveIcon />}
                         label={<FormattedMessage id="toolbar.leave-room-button" defaultMessage="Leave" />}
@@ -1621,7 +1615,7 @@ class UIRoot extends Component {
                         }}
                       />
                     )}
-                    <MoreMenuPopoverButton menu={moreMenu} />
+                    <MoreMenuPopoverButton menu={moreMenu} /> */}
                   </>
                 }
               />

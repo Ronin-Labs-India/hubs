@@ -10,6 +10,7 @@
   @media (min-width: theme.$breakpoint-lg) {
     padding: 12px 24px;
     justify-content: space-between;
+    align-items: center;
   }
 }
 
@@ -17,11 +18,12 @@
   display: flex;
   flex: 1;
   justify-content: space-around;
+  align-items: center;
 
   @media (min-width: theme.$breakpoint-lg) {
     flex: 0;
 
-    & > * {
+    &>* {
       margin-right: 24px;
     }
 
