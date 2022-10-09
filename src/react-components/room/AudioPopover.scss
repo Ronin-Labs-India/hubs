@@ -11,7 +11,7 @@
   }
 }
 
-:local(.selection-input) {  
+:local(.selection-input) {
   width: 100%;
   max-width: none;
 }
@@ -55,4 +55,30 @@
 :local(.level-bar) {
   width: 100%;
   height: 24px;
+}
+
+// our code comes here
+
+:local(.mic_wrapper) {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 40px;
+}
+
+:local(.logo_wrapper) {
+  & svg {
+    width: 78px;
+  }
+}
+
+:local(.newBtnWrapper) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border: 1px solid theme.$hdfcRed;
+  height: 60px;
+  border-radius: 30px;
 }

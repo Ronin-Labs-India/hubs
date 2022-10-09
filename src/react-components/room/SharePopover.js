@@ -28,6 +28,7 @@ export function SharePopoverButton({ items }) {
   if (filteredItems.length === 1 || activeItem) {
     const item = filteredItems[0];
     const Icon = item.icon;
+    console.log('=-=-=-=-==-=-==-=-=-')
     return (
       <ToolbarButton
         icon={<Icon />}
@@ -52,6 +53,8 @@ export function SharePopoverButton({ items }) {
       disableFullscreen
     >
       {({ togglePopover, popoverVisible, triggerRef }) => (
+        <>
+        <div>adfdsf</div>
         <ToolbarButton
           ref={triggerRef}
           icon={<ShareIcon />}
@@ -60,6 +63,7 @@ export function SharePopoverButton({ items }) {
           label={title}
           preset="accent5"
         />
+        </>
       )}
     </Popover>
   );

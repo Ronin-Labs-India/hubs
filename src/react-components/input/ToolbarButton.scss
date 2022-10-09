@@ -48,14 +48,16 @@
   height: 96px;
 }
 
-:local(.basic), :local(.transparent) {
+:local(.basic),
+:local(.transparent) {
   :local(.icon-container) {
     border-color: theme.$toolbar-basic-border-color;
     background-color: transparent;
+
     svg {
       color: theme.$toolbar-basic-icon-color;
     }
-  }  
+  }
 
   &:hover :local(.icon-container) {
     border: 1px solid theme.$toolbar-basic-border-color;
@@ -72,6 +74,7 @@
       border-color: transparent;
       background-color: theme.$toolbar-icon-selected-bg;
     }
+
     svg {
       color: theme.$toolbar-basic-selected-icon-color;
     }
@@ -85,7 +88,7 @@
         background-color: theme.$toolbar-basic-color-hover;
       }
     }
-  
+
     &:active {
       :local(.icon-container) {
         background-color: theme.$toolbar-basic-color-pressed;
@@ -101,7 +104,7 @@
 :local(.primary) {
   :local(.icon-container) {
     background-color: theme.$primary-color;
-  }  
+  }
 
   &:hover :local(.icon-container) {
     background-color: theme.$primary-color-hover;
@@ -135,7 +138,7 @@
         }
       }
     }
-  
+
     &:active {
       :local(.icon-container) {
         border-color: theme.$primary-color-pressed;
@@ -153,7 +156,7 @@
   :local(.icon-container) {
     background-color: theme.$accept-color;
     border-color: theme.$accept-border-color;
-  }  
+  }
 
   &:hover :local(.icon-container) {
     background-color: theme.$accept-color-hover;
@@ -186,7 +189,7 @@
         }
       }
     }
-  
+
     &:active {
       :local(.icon-container) {
         border-color: theme.$accept-color-pressed;
@@ -202,7 +205,7 @@
 :local(.cancel) {
   :local(.icon-container) {
     background-color: theme.$cancel-color;
-  }  
+  }
 
   &:hover :local(.icon-container) {
     background-color: theme.$cancel-color-hover;
@@ -235,7 +238,7 @@
         }
       }
     }
-  
+
     &:active {
       :local(.icon-container) {
         border-color: theme.$cancel-color-pressed;
@@ -252,7 +255,7 @@
   :local(.icon-container) {
     background-color: theme.$accent1-color;
     border-color: theme.$accent1-border-color;
-  }  
+  }
 
   &:hover :local(.icon-container) {
     background-color: theme.$accent1-color-hover;
@@ -285,7 +288,7 @@
         }
       }
     }
-  
+
     &:active {
       :local(.icon-container) {
         border-color: theme.$accent1-color-pressed;
@@ -302,7 +305,7 @@
   :local(.icon-container) {
     background-color: theme.$accent2-color;
     border-color: theme.$accent2-border-color;
-  }  
+  }
 
   &:hover :local(.icon-container) {
     background-color: theme.$accent2-color-hover;
@@ -335,7 +338,7 @@
         }
       }
     }
-  
+
     &:active {
       :local(.icon-container) {
         border-color: theme.$accent2-color-pressed;
@@ -352,7 +355,7 @@
   :local(.icon-container) {
     background-color: theme.$accent3-color;
     border-color: theme.$accent3-border-color;
-  }  
+  }
 
   &:hover :local(.icon-container) {
     background-color: theme.$accent3-color-hover;
@@ -369,7 +372,7 @@
 
       svg {
         color: theme.$accent3-color;
-         }
+      }
     }
 
     label {
@@ -385,7 +388,7 @@
         }
       }
     }
-  
+
     &:active {
       :local(.icon-container) {
         border-color: theme.$accent3-color-pressed;
@@ -435,7 +438,7 @@
         }
       }
     }
-  
+
     &:active {
       :local(.icon-container) {
         border-color: theme.$accent4-color-pressed;
@@ -452,7 +455,7 @@
   :local(.icon-container) {
     background-color: theme.$accent5-color;
     border-color: theme.$accent5-border-color;
-  }  
+  }
 
   &:hover :local(.icon-container) {
     background-color: theme.$accent5-color-hover;
@@ -473,7 +476,7 @@
     }
 
     label {
-      color: theme.$toolbar-label-accent5;   
+      color: theme.$toolbar-label-accent5;
     }
 
     &:hover {
@@ -485,10 +488,11 @@
         }
       }
     }
-  
+
     &:active {
       :local(.icon-container) {
         border-color: theme.$accent5-color-pressed;
+
         svg {
           color: theme.$accent5-color-pressed;
         }
@@ -528,7 +532,7 @@
     border-radius: 0px;
     border-top-left-radius: 9999px;
     border-bottom-left-radius: 9999px;
-  } 
+  }
 }
 
 :local(.middle) {
@@ -543,5 +547,50 @@
     border-radius: 0px;
     border-top-right-radius: 9999px;
     border-bottom-right-radius: 9999px;
+  }
+}
+
+
+// new code comes here
+:local(.newToolbarButton) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 45px;
+  width: 120px;
+  border-radius: 30px;
+  border: 1px solid theme.$hdfcRed;
+  background: #fff;
+  color: theme.$hdfcRed;
+  box-shadow: 0px 3px 8px #D1141924;
+  flex-direction: column;
+
+  & label {
+    font-weight: 600;
+    margin-top: 5px;
+  }
+}
+
+:local(.avatarButton) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 45px;
+  width: 120px;
+  border-radius: 30px;
+  border: 1px solid theme.$hdfcRed;
+  background: #fff;
+  color: theme.$hdfcRed;
+  box-shadow: 0px 3px 8px #D1141924;
+  flex-direction: column;
+
+  & svg {
+    width: 20px;
+  }
+
+  & label {
+    font-weight: 600;
+    margin-top: 5px;
+    font-size: 10px;
   }
 }

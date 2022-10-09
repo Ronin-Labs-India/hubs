@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { ImageGridPopover } from "../popover/ImageGridPopover";
 import { Popover } from "../popover/Popover";
 import { ToolbarButton } from "../input/ToolbarButton";
-import { ReactComponent as ReactionIcon } from "../icons/Reaction.svg";
+import { ReactComponent as ReactionIcon } from "../icons/EmoIcon.svg";
 import { ReactComponent as HandRaisedIcon } from "../icons/HandRaised.svg";
 import { defineMessage, FormattedMessage, useIntl } from "react-intl";
 import { Column } from "../layout/Column";
@@ -11,6 +11,7 @@ import { Row } from "../layout/Row";
 import { HandRaisedButton } from "./ReactionButton";
 import styles from "./ReactionPopover.scss";
 import { Button } from "../input/Button";
+import { NewToolbarButton } from "./NewToobarButton";
 
 const reactionPopoverTitle = defineMessage({
   id: "reaction-popover.title",
@@ -104,7 +105,7 @@ export function ReactionPopoverButton({ items, presence, onToggleHandRaised }) {
       disableFullscreen={isTooltipVisible}
     >
       {({ togglePopover, popoverVisible, triggerRef }) => (
-        <ToolbarButton
+        <NewToolbarButton
           ref={triggerRef}
           icon={
             presence.hand_raised ? (

@@ -97,6 +97,10 @@ import { MediaDevicesEvents } from "../utils/media-devices-utils";
 import { TERMS, PRIVACY } from "../constants";
 import ExitRoomButton from "./room/ExitRoomBtn";
 import SettingButton from "./room/SettingBtn";
+import AvatarButton from "./room/AvatarButton";
+import PenButton from "./room/PenButton";
+import SelfieButton from "./room/SelfieButton";
+import ChatButton from "./room/ChatButton";
 
 const avatarEditorDebug = qsTruthy("avatarEditorDebug");
 
@@ -1356,7 +1360,7 @@ class UIRoot extends Component {
                   <>
                     {!this.state.dialog && renderEntryFlow ? entryDialog : undefined}
                     {!this.props.selectedObject && <CompactMoreMenuButton />}
-                    {(!this.props.selectedObject ||
+                    {/* {(!this.props.selectedObject ||
                       (this.props.breakpoint !== "sm" && this.props.breakpoint !== "md")) && (
                       <ContentMenu>
                         {showObjectList && (
@@ -1371,7 +1375,7 @@ class UIRoot extends Component {
                           presencecount={this.state.presenceCount}
                         />
                       </ContentMenu>
-                    )}
+                    )} */}
                     {!entered && !streaming && !isMobile && streamerName && <SpectatingLabel name={streamerName} />}
                     {this.props.activeObject && (
                       <ObjectMenuContainer
@@ -1551,7 +1555,8 @@ class UIRoot extends Component {
                     )}
                     {entered && (
                       <>
-                        <AudioPopoverContainer scene={this.props.scene} />
+                        <AvatarButton onClick={() => {this.props.mediaSearchStore.sourceNavigate("avatars")}} />
+                        <PenButton onClick={() => {this.props.scene.emit("penButtonPressed")}} />
                         <SharePopoverContainer scene={this.props.scene} hubChannel={this.props.hubChannel} />
                         <PlacePopoverContainer
                           scene={this.props.scene}
@@ -1559,16 +1564,19 @@ class UIRoot extends Component {
                           mediaSearchStore={this.props.mediaSearchStore}
                           showNonHistoriedDialog={this.showNonHistoriedDialog}
                         />
+                        <AudioPopoverContainer scene={this.props.scene} />
+                        <SelfieButton onClick={() => this.props.scene.emit("action_toggle_camera")} />
                         {this.props.hubChannel.can("spawn_emoji") && (
                           <ReactionPopoverContainer
                             scene={this.props.scene}
                             initialPresence={getPresenceProfileForSession(this.props.presences, this.props.sessionId)}
                           />
                         )}
+                        <ChatButton onClick={() => this.toggleSidebar("chat")} />
                       </>
                     )}
-                    <ChatToolbarButtonContainer onClick={() => this.toggleSidebar("chat")} />
-                    {entered &&
+                    {/* <ChatToolbarButtonContainer onClick={() => this.toggleSidebar("chat")} /> */}
+                    {/* {entered &&
                       isMobileVR && (
                         <ToolbarButton
                           className={styleUtils.hideLg}
@@ -1577,11 +1585,20 @@ class UIRoot extends Component {
                           label={<FormattedMessage id="toolbar.enter-vr-button" defaultMessage="Enter VR" />}
                           onClick={() => exit2DInterstitialAndEnterVR(true)}
                         />
-                      )}
+                      )} */}
                   </>
                 }
                 toolbarRight={
                   <>
+                  {entered &&
+                      isMobileVR && (
+                        <ToolbarButton
+                          icon={<VRIcon />}
+                          preset="accept"
+                          label={<FormattedMessage id="toolbar.enter-vr-button" defaultMessage="Enter VR" />}
+                          onClick={() => exit2DInterstitialAndEnterVR(true)}
+                        />
+                      )}
                     {entered &&
                       isMobileVR && (
                         <ToolbarButton

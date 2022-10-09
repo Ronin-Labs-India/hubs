@@ -158,7 +158,6 @@ export function SharePopoverContainer({ scene, hubChannel }) {
       active: sharingSource === "camera-to-avatar"
     }
   ];
-
   return <SharePopoverButton items={items} />;
 }
 
