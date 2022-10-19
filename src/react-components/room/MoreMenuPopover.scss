@@ -31,7 +31,7 @@
   font-size: theme.$font-size-sm;
   font-weight: theme.$font-weight-medium;
 
-  & > * {
+  &>* {
     margin-right: 16px;
 
     &:last-child {
@@ -47,7 +47,9 @@
   @media(min-width: theme.$breakpoint-lg) and (min-height: theme.$breakpoint-vr) {
     width: calc(100% + 2px);
 
-    &:hover, &:active, :global(body.keyboard-user) &:focus {
+    &:hover,
+    &:active,
+    :global(body.keyboard-user) &:focus {
       margin-left: -1px;
       margin-right: -1px;
       padding-left: 17px;
@@ -55,7 +57,9 @@
     }
   }
 
-  &:hover, &:active, :global(body.keyboard-user) &:focus {
+  &:hover,
+  &:active,
+  :global(body.keyboard-user) &:focus {
     color: theme.$active-text-color;
     font-weight: theme.$font-weight-bold;
 
@@ -64,7 +68,8 @@
     }
   }
 
-  &:hover, :global(body.keyboard-user) &:focus {
+  &:hover,
+  :global(body.keyboard-user) &:focus {
     background-color: theme.$active-color-hover;
   }
 
@@ -79,7 +84,7 @@
 
 button:local(.more-menu-item-target) {
   background: transparent;
-  border: none; 
+  border: none;
 }
 
 :local(.compact-button) {
@@ -111,5 +116,47 @@ button:local(.more-menu-item-target) {
 
   @media(min-width: theme.$breakpoint-lg) {
     display: none;
+  }
+}
+
+// code comes here
+
+:local(.rightButton) {
+  width: 45px;
+  height: 45px;
+  border-radius: 100%;
+  border: 1px solid theme.$hdfcRed;
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+
+  & svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  @media(min-width: theme.$breakpoint-lg) {
+    width: 60px;
+    height: 60px;
+    top: 30px;
+    right: 30px;
+
+    & svg {
+      width: 22px;
+      height: 22px;
+    }
+  }
+
+  &>div {
+    background-color: transparent !important;
+    border: none !important;
+  }
+
+  &>label {
+    color: theme.$hdfcRed;
   }
 }
