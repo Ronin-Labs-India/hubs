@@ -1,19 +1,19 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { defineMessage, FormattedMessage, injectIntl } from "react-intl";
-import classNames from "classnames";
-import { faTimes } from "@fortawesome/free-solid-svg-icons/faTimes";
 import { faCloudUploadAlt } from "@fortawesome/free-solid-svg-icons/faCloudUploadAlt";
+import { faTimes } from "@fortawesome/free-solid-svg-icons/faTimes";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import classNames from "classnames";
+import PropTypes from "prop-types";
+import React, { Component } from "react";
+import { defineMessage, FormattedMessage, injectIntl } from "react-intl";
 
-import configs from "../utils/configs";
-import IfFeature from "./if-feature";
-import { fetchReticulumAuthenticated } from "../utils/phoenix-utils";
-import { upload } from "../utils/media-utils";
 import { ensureAvatarMaterial } from "../utils/avatar-utils";
+import configs from "../utils/configs";
+import { upload } from "../utils/media-utils";
+import { fetchReticulumAuthenticated } from "../utils/phoenix-utils";
+import IfFeature from "./if-feature";
 
-import AvatarPreview from "./avatar-preview";
 import styles from "../assets/stylesheets/avatar-editor.scss";
+import AvatarPreview from "./avatar-preview";
 
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 
