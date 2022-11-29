@@ -1,10 +1,10 @@
-import React from "react";
 import PropTypes from "prop-types";
-import { Button, AcceptButton } from "../input/Button";
-import styles from "./AvatarSettingsContent.scss";
+import React from "react";
+import { FormattedMessage } from "react-intl";
+import { Button } from "../input/Button";
 import { TextInputField } from "../input/TextInputField";
 import { Column } from "../layout/Column";
-import { FormattedMessage } from "react-intl";
+import styles from "./AvatarSettingsContent.scss";
 
 export function AvatarSettingsContent({
   displayName,
@@ -36,6 +36,9 @@ export function AvatarSettingsContent({
       />
       <div className={styles.avatarPreviewContainer}>
         {avatarPreview || <div />}
+        <Button type="button" onClick={onChangeAvatar} className={styles.avatarCreateButton}>
+          {"Create Avatar"}
+        </Button>
         <Button type="button" onClick={onChangeAvatar}>
           <FormattedMessage id="avatar-settings-content.change-avatar-button" defaultMessage="Change Avatar" />
         </Button>

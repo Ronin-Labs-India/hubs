@@ -1,6 +1,6 @@
-import React, { forwardRef } from "react";
-import PropTypes from "prop-types";
 import classNames from "classnames";
+import PropTypes from "prop-types";
+import React, { forwardRef } from "react";
 import styles from "./ToolbarButton.scss";
 
 export const presets = [

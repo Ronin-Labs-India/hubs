@@ -1428,7 +1428,8 @@ class UIRoot extends Component {
                     {this.state.entered && <ExitRoomButton onClick={() => { 
                         this.showNonHistoriedDialog(LeaveRoomModal, { destinationUrl: "/", reason: LeaveReason.leaveRoom});
                       }}/> }
-                    {this.state.entered && <SettingButton onClick={() => {this.setState({ showPrefs: true });}}/>}
+                    {/* {this.state.entered && <SettingButton onClick={() => {this.setState({ showPrefs: true });}}/>} */}
+                    {this.state.entered && <MoreMenuPopoverButton menu={moreMenu} />}
                   </>
                 }
                 sidebar={

@@ -10,8 +10,8 @@
   // Enable eslint for JavaScript files.
   "eslint.enable": true,
   "workbench.colorCustomizations": {
-    "activityBar.background": "#5D0826",
-    "titleBar.activeBackground": "#830C35",
-    "titleBar.activeForeground": "#FFFCFD"
+    "activityBar.background": "#043610",
+    "titleBar.activeBackground": "#054B16",
+    "titleBar.activeForeground": "#EFFEF2"
   }
 }
