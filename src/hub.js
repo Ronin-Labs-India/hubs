@@ -239,6 +239,7 @@ import { OAuthScreenContainer } from "./react-components/auth/OAuthScreenContain
 import { SignInMessages } from "./react-components/auth/SignInModal";
 import { ThemeProvider } from "./react-components/styles/theme";
 import { LogMessageType } from "./react-components/room/ChatSidebar";
+import { WindfarmHandler } from "./WindfarmHandler";
 
 const PHOENIX_RELIABLE_NAF = "phx-reliable";
 NAF.options.firstSyncSource = PHOENIX_RELIABLE_NAF;
@@ -413,6 +414,14 @@ export async function updateEnvironmentForHub(hub, entryManager) {
 
         console.log(`Scene file initial load took ${Math.round(performance.now() - loadStart)}ms`);
 
+        console.log("Pratik");
+        environmentEl.object3DMap.mesh.traverse(o=>{
+          if(o.name === "WindFarm"){
+            console.log("We found the wind farm ________________1");
+            let windfarm = new WindfarmHandler(o);
+          }
+        })
+
         // Show the canvas once the model has loaded
         document.querySelector(".a-canvas").classList.remove("a-hidden");
 
@@ -450,6 +459,14 @@ export async function updateEnvironmentForHub(hub, entryManager) {
             envSystem.updateEnvironment(environmentEl);
 
             console.log(`Scene file update load took ${Math.round(performance.now() - loadStart)}ms`);
+
+            console.log("Pratik");
+            environmentEl.object3DMap.mesh.traverse(o=>{
+              if(o.name === "WindFarm"){
+                console.log("We found the wind farm ________________2");
+                let windfarm = new WindfarmHandler(o);
+              }
+            })
 
             traverseMeshesAndAddShapes(environmentEl);
 
