@@ -240,6 +240,7 @@ import { SignInMessages } from "./react-components/auth/SignInModal";
 import { ThemeProvider } from "./react-components/styles/theme";
 import { LogMessageType } from "./react-components/room/ChatSidebar";
 import { WindfarmHandler } from "./WindfarmHandler";
+let windfarm = undefined;
 
 const PHOENIX_RELIABLE_NAF = "phx-reliable";
 NAF.options.firstSyncSource = PHOENIX_RELIABLE_NAF;
@@ -414,11 +415,12 @@ export async function updateEnvironmentForHub(hub, entryManager) {
 
         console.log(`Scene file initial load took ${Math.round(performance.now() - loadStart)}ms`);
 
-        console.log("Pratik");
+        console.log("Pratik",environmentEl.object3DMap.mesh);
         environmentEl.object3DMap.mesh.traverse(o=>{
           if(o.name === "WindFarm"){
             console.log("We found the wind farm ________________1");
-            let windfarm = new WindfarmHandler(o);
+            if(windfarm === undefined)
+              windfarm = new WindfarmHandler(o);
           }
         })
 
@@ -462,9 +464,10 @@ export async function updateEnvironmentForHub(hub, entryManager) {
 
             console.log("Pratik");
             environmentEl.object3DMap.mesh.traverse(o=>{
-              if(o.name === "WindFarm"){
-                console.log("We found the wind farm ________________2");
-                let windfarm = new WindfarmHandler(o);
+              console.log("We found the wind farm ________________2");
+              if(windfarm === undefined)
+              { 
+                windfarm = new WindfarmHandler(o);
               }
             })
 

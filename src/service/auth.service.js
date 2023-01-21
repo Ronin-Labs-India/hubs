@@ -12,6 +12,36 @@ const authService = {
       } 
     )
   },
+  async generatorData() {
+    return new Promise((resolve, reject) => {
+        HTTPService.get('/Generator/WF01Turbine01').then(({data})=>{
+          resolve(data);
+        }).catch((e)=>{
+          reject(e);
+        });
+      } 
+    )
+  },
+  async gearData() {
+    return new Promise((resolve, reject) => {
+        HTTPService.get('/GearBox/WF01Turbine01').then(({data})=>{
+          resolve(data);
+        }).catch((e)=>{
+          reject(e);
+        });
+      } 
+    )
+  },
+  async nacelleData() {
+    return new Promise((resolve, reject) => {
+        HTTPService.get('/Nacelle/WF01Turbine01').then(({data})=>{
+          resolve(data);
+        }).catch((e)=>{
+          reject(e);
+        });
+      } 
+    )
+  },
   // async login(payload) {
   //   return new Promise((resolve, reject) => {
   //       HTTPService.post('/login',payload).then(({data})=>{
