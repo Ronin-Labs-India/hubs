@@ -420,7 +420,7 @@ export async function updateEnvironmentForHub(hub, entryManager) {
           if(o.name === "WindFarm"){
             console.log("We found the wind farm ________________1");
             if(windfarm === undefined)
-              windfarm = new WindfarmHandler(o);
+              windfarm = new WindfarmHandler(environmentEl.object3DMap.mesh);
           }
         })
 
@@ -467,7 +467,7 @@ export async function updateEnvironmentForHub(hub, entryManager) {
               console.log("We found the wind farm ________________2");
               if(windfarm === undefined)
               { 
-                windfarm = new WindfarmHandler(o);
+                windfarm = new WindfarmHandler(environmentEl.object3DMap.mesh);
               }
             })
 
