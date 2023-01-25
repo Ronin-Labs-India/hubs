@@ -26,8 +26,8 @@ export class WindfarmHandler{
     {
         // 
         console.log("windfarm v 01");
-        this.windfarmParent = hirarchy.children[9];
-        this.windfarmobj = hirarchy.children[9].children[1];
+        this.windfarmParent = hirarchy.children[10];
+        this.windfarmobj = hirarchy.children[10].children[1];
         
         this.windfarmobj.traverse((child)=>{
             child.matrixAutoUpdate = true;
