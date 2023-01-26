@@ -1,4 +1,4 @@
-@use '../styles/theme';
+@use "../styles/theme";
 
 :local(.icon-button) {
   display: flex;
@@ -11,12 +11,13 @@
   cursor: pointer;
   padding: 3px;
   border-radius: 4px;
+  color: #fff;
 
   svg {
     color: #fff;
   }
 
-  &>* {
+  & > * {
     margin-right: 4px;
 
     &:last-child {
@@ -25,7 +26,8 @@
   }
 
   &:hover {
-    color: theme.$primary-color-hover;
+    color: #fff;
+    // color: theme.$primary-color-hover;
 
     svg {
       color: theme.$primary-color-hover;
@@ -33,7 +35,8 @@
   }
 
   &:active {
-    color: theme.$primary-color-pressed;
+    color: #fff;
+    // color: theme.$primary-color-pressed;
 
     svg {
       color: theme.$primary-color-pressed;
@@ -70,13 +73,11 @@
   }
 
   &:local(.compact-sm) {
-
-    @media(max-width: theme.$breakpoint-lg - 1),
-    (max-height: theme.$breakpoint-vr - 1) {
+    @media (max-width: theme.$breakpoint-lg - 1), (max-height: theme.$breakpoint-vr - 1) {
       flex-direction: column;
       justify-content: center;
 
-      &>* {
+      & > * {
         margin-right: 0;
         margin-bottom: 4px;
 
@@ -93,7 +94,7 @@
 }
 
 :local(.lg) {
-  @media(min-width: theme.$breakpoint-lg) and (min-height: theme.$breakpoint-vr) {
+  @media (min-width: theme.$breakpoint-lg) and (min-height: theme.$breakpoint-vr) {
     font-size: theme.$font-size-sm;
 
     svg {
