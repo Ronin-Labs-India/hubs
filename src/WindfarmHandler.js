@@ -148,7 +148,7 @@ export class WindfarmHandler{
         if(this.turbineData){
             //step 1 check for alert
             let isAlert = false;
-            if(this.turbineData.SpeedStatus === "ALERT" || true){
+            if(this.turbineData.SpeedStatus === "ALERT"){
                 //High blade rotation speed
                 isAlert = true;
                 this.alertBg.visible = true;
