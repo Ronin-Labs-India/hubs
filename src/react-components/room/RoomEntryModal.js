@@ -32,43 +32,43 @@ export function RoomEntryModal({
   const breakpoint = useCssBreakpoints();
   return (
     <>
-    <div className={styles.modal_wrapper} />
-    <div className={styles.modal_container}>
-      <Modal className={classNames(styles.roomEntryModal, className)} disableFullscreen {...rest}>
-        <div className={styles.modal_content}>
-          <div className={styles.logo_wrapper}>
-            <div>
-              <img src={dLogo} className={styles.dLogo} />
-              <img src={mLogo} className={styles.mLogo}/>
+      <div className={styles.modal_wrapper} />
+      <div className={styles.modal_container}>
+        <Modal className={classNames(styles.roomEntryModal, className)} disableFullscreen {...rest}>
+          <div className={styles.modal_content}>
+            <div className={styles.logo_wrapper}>
+              <div>
+                <img src={dLogo} className={styles.dLogo} />
+                <img src={mLogo} className={styles.mLogo} />
+              </div>
+            </div>
+            <div className={styles.welcome_txt}>
+              <div>
+                <span className={styles.welcome}>Welcome to the</span>
+                <span className={styles.org_name}>Yashverse!</span>
+                <span className={styles.reg_txt}>Choose an option from below to enter.</span>
+              </div>
+              <div className={classNames(styles.button_wrapper, styles.buttons)}>
+                {showJoinRoom && (
+                  <div>
+                    <button className={styles.enterRoomBtn} onClick={onJoinRoom}>
+                      <EnterIcon />
+                      <span>{"Enter the Metaverse"}</span>
+                    </button>
+                  </div>
+                )}
+                {showEnterOnDevice && (
+                  <div>
+                    <button className={styles.enterVRBtn} onClick={onEnterOnDevice}>
+                      <VRIcon />
+                      <span>{"Join with VR Device"}</span>
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
-          <div className={styles.welcome_txt}>
-            <div>
-              <span className={styles.welcome}>Welcome to the</span>
-              <span className={styles.org_name}>Yashverse!</span>
-              <span className={styles.reg_txt}>Choose an option from below to enter.</span>
-            </div>
-            <div className={classNames(styles.button_wrapper,styles.buttons)}>
-            {showJoinRoom && (
-              <div>
-                <button className={styles.enterRoomBtn} onClick={onJoinRoom}>
-                  <EnterIcon />
-                  <span>{"Enter the Metaverse"}</span>
-                </button>
-              </div>
-            )}
-            {showEnterOnDevice && (
-              <div>
-                <button className={styles.enterVRBtn} onClick={onEnterOnDevice}>
-                  <VRIcon />
-                  <span>{"Join with VR Device"}</span>
-                </button>
-              </div>
-            )}
-            </div>
-          </div>
-        </div>
-        {/* <Column center className={styles.content}>
+          {/* <Column center className={styles.content}>
           {breakpoint !== "sm" &&
             breakpoint !== "md" && (
               <div className={styles.logoContainer}>
@@ -120,8 +120,8 @@ export function RoomEntryModal({
               )}
           </Column>
         </Column> */}
-      </Modal>
-    </div>
+        </Modal>
+      </div>
     </>
   );
 }
