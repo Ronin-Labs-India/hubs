@@ -42,6 +42,16 @@ const authService = {
       } 
     )
   },
+  async takeAction(payload) {
+    return new Promise((resolve, reject) => {
+        HTTPService.post('/Alerts/WF01Turbine01',payload).then(({data})=>{
+          resolve(data);
+        }).catch((e)=>{
+          reject(e);
+        });
+      } 
+    )
+  },
   // async login(payload) {
   //   return new Promise((resolve, reject) => {
   //       HTTPService.post('/login',payload).then(({data})=>{

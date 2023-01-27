@@ -14,6 +14,7 @@ export class WindfarmHandler{
     isRefreshGeneratorBusy = false;
     isRefreshGearBusy = false;
     isRefreshNacelleBusy = false;
+    isAlertActionBusy = false;
 
     turbineData = undefined;
     generatorData = undefined;
@@ -21,6 +22,20 @@ export class WindfarmHandler{
     nacelleData = undefined;
 
     windfarmRot = new THREE.Euler(0,0,0);
+    alertActionData = {
+        pid:"WF01Turbine01",
+        paction:"TurnOn"
+    }
+    alertActionDatabase = {
+        turbine:{
+            alert_highBaldeRotation:{
+                paction:"Reduce"
+            },
+            alert_turbineIsTilted:{
+                paction:"TurnOff"
+            }
+        }
+    }
 
     constructor(hirarchy)
     {
@@ -117,9 +132,12 @@ export class WindfarmHandler{
 
         window.windfarmobj = this;
 
-        document.getElementById("takeActionWindfarmButton").object3D.addEventListener("interact", ()=>{
+        this.takeActionObj = document.getElementById("takeActionWindfarmButton").object3D;
+        this.takeActionObj.addEventListener("interact", ()=>{
             this.TakeActionAlert();
         });
+        this.takeActionObj.visible = false;
+        this.takeActionObj.matrixAutoUpdate = true;
     } 
     
     update =()=>{
@@ -137,6 +155,7 @@ export class WindfarmHandler{
                 // console.log("private txt",this.alertTurbineTxt._private_text);
                 this.alertTurbineTxt._private_text = "High blade rotation speed";
                 this.alertTurbineTxt._needsSync = true;
+                this.alertActionData.paction = this.alertActionDatabase.turbine.alert_highBaldeRotation.paction;
             }
             if(this.turbineData.AccelerometerStatus === "ALERT"){
                 //Turbine is tilted
@@ -147,14 +166,17 @@ export class WindfarmHandler{
                 // console.log("private txt",this.alertTurbineTxt._private_text);
                 this.alertTurbineTxt._private_text = "Turbine is tilted";
                 this.alertTurbineTxt._needsSync = true;
+                this.alertActionData.paction = this.alertActionDatabase.turbine.alert_turbineIsTilted.paction;
             }
             if(!isAlert){
                 this.alertBg.visible = false;
                 this.alertAnim.visible = false;
+                this.takeActionObj.visible = false;
             }
             else
             {
                 this.alertAnim.visible = true;
+                this.takeActionObj.visible = true;
             }
 
             // let accelerometer = new THREE.Euler( Number(this.turbineData.Accelerometer_x),Number(this.turbineData.Accelerometer_y),Number(this.turbineData.Accelerometer_z));
@@ -287,6 +309,17 @@ export class WindfarmHandler{
     }
 
     TakeActionAlert=()=>{
+        if(this.isAlertActionBusy)
+            return;
+        this.isAlertActionBusy = true;
+
         console.log("Alert Action");
+        authService.takeAction(this.alertActionData).then((data)=>{
+            this.isAlertActionBusy = false;
+            console.log("Alert Action taken",data);
+        }).catch((err)=>{
+            this.isAlertActionBusy = false;
+            console.log("Alert Action is not taken",data);
+        })
     }
 }
