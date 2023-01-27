@@ -54,6 +54,25 @@ export class WindfarmHandler{
             }
         })
 
+        this.windfarmParent.children[4].traverse((child)=>{
+            if(child.isMesh){
+                this.statsText_1 = child;
+                child.matrixAutoUpdate = true;
+            }
+        })
+        this.windfarmParent.children[5].traverse((child)=>{
+            if(child.isMesh){
+                this.statsText_2 = child;
+                child.matrixAutoUpdate = true;
+            }
+        })
+        this.windfarmParent.children[6].traverse((child)=>{
+            if(child.isMesh){
+                this.statsText_3 = child;
+                child.matrixAutoUpdate = true;
+            }
+        })
+
         console.log("txt",this.alertTurbineTxt._private_text);
     
 
@@ -97,6 +116,10 @@ export class WindfarmHandler{
         },5000)
 
         window.windfarmobj = this;
+
+        document.getElementById("takeActionWindfarmButton").object3D.addEventListener("interact", ()=>{
+            this.TakeActionAlert();
+        });
     } 
     
     update =()=>{
@@ -107,7 +130,7 @@ export class WindfarmHandler{
         if(this.turbineData){
             //step 1 check for alert
             let isAlert = false;
-            if(this.turbineData.SpeedStatus === "ALERT"){
+            if(this.turbineData.SpeedStatus === "ALERT" || true){
                 //High blade rotation speed
                 isAlert = true;
                 this.alertBg.visible = true;
@@ -148,6 +171,10 @@ export class WindfarmHandler{
             // bladeSpeed = 1; //in rps
             if(this.blades)
                 this.blades.rotateX(2 * 3.14 * bladeSpeed * this.delta);
+            
+            //show rps
+            this.statsText_2._private_text = "rps: "+ this.turbineData.SpeedOfWindblade;
+            this.statsText_2._needsSync = true;
         }
 
         //Simulate generator data
@@ -186,6 +213,12 @@ export class WindfarmHandler{
             }
             let humidity = this.nacelleData.humidity;
             let temperature = this.nacelleData.temperature;
+            //show rps
+            this.statsText_1._private_text = "Temp.: " + temperature ;
+            this.statsText_1._needsSync = true;
+
+            this.statsText_3._private_text = "";
+            this.statsText_3._needsSync = true;
         }
     }
 
@@ -251,5 +284,9 @@ export class WindfarmHandler{
             this.isRefreshNacelleBusy = false;
             // console.log("turbine data err",err);
         })
+    }
+
+    TakeActionAlert=()=>{
+        console.log("Alert Action");
     }
 }
