@@ -134,13 +134,13 @@ export class WindfarmHandler {
     this.takeActionObj.visible = false;
     this.takeActionObj.matrixAutoUpdate = true;
 
-    this.takeActionObj.traverse((child)=>{
-        if(child.isMesh){
-            child.material.transparent = true;
-            child.material.opacity = 0.5;
-            child.material.needsUpdate = true;
-        }
-    })
+    this.takeActionObj.traverse(child => {
+      if (child.isMesh) {
+        child.material.transparent = true;
+        child.material.opacity = 0.5;
+        child.material.needsUpdate = true;
+      }
+    });
   }
 
   update = () => {
@@ -177,7 +177,7 @@ export class WindfarmHandler {
         this.takeActionObj.visible = false;
       } else {
         this.alertAnim.visible = true;
-        // this.takeActionObj.visible = true;
+        this.takeActionObj.visible = true;
       }
 
       // let accelerometer = new THREE.Euler( Number(this.turbineData.Accelerometer_x),Number(this.turbineData.Accelerometer_y),Number(this.turbineData.Accelerometer_z));
