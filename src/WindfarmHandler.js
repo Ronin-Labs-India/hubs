@@ -133,6 +133,14 @@ export class WindfarmHandler {
     });
     this.takeActionObj.visible = false;
     this.takeActionObj.matrixAutoUpdate = true;
+
+    this.takeActionObj.traverse((child)=>{
+        if(child.isMesh){
+            child.material.transparent = true;
+            child.material.opacity = 0.5;
+            child.material.needsUpdate = true;
+        }
+    })
   }
 
   update = () => {
@@ -143,7 +151,7 @@ export class WindfarmHandler {
     if (this.turbineData) {
       //step 1 check for alert
       let isAlert = false;
-      if (this.turbineData.SpeedStatus === "ALERT") {
+      if (this.turbineData.SpeedStatus === "ALERT" || true) {
         //High blade rotation speed
         isAlert = true;
         this.alertBg.visible = true;
