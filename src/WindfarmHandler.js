@@ -177,7 +177,7 @@ export class WindfarmHandler {
         this.takeActionObj.visible = false;
       } else {
         this.alertAnim.visible = true;
-        this.takeActionObj.visible = true;
+        // this.takeActionObj.visible = true;
       }
 
       // let accelerometer = new THREE.Euler( Number(this.turbineData.Accelerometer_x),Number(this.turbineData.Accelerometer_y),Number(this.turbineData.Accelerometer_z));
