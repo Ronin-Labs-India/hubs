@@ -150,9 +150,10 @@ export class WindfarmHandler {
 
     //simulate turbine data
     if (this.turbineData) {
+      let isConnected = (this.turbineData.Connectivity === "Connected");
       //step 1 check for alert
       let isAlert = false;
-      if (this.turbineData.SpeedStatus === "ALERT") {
+      if (this.turbineData.SpeedStatus === "ALERT" && isConnected) {
         //High blade rotation speed
         isAlert = true;
         this.alertBg.visible = true;
@@ -161,7 +162,7 @@ export class WindfarmHandler {
         this.alertTurbineTxt._needsSync = true;
         this.alertActionData.Paction = this.alertActionDatabase.turbine.alert_highBaldeRotation.Paction;
       }
-      if (this.turbineData.AccelerometerStatus === "ALERT") {
+      if (this.turbineData.AccelerometerStatus === "ALERT" && isConnected) {
         //Turbine is tilted
         isAlert = true;
         this.alertBg.visible = true;
@@ -187,10 +188,10 @@ export class WindfarmHandler {
       // let qt = new THREE.Quaternion().setFromRotationMatrix(mx);
 
       let turbineTiltX = Number(this.turbineData.Accelerometer_x);
-      if (turbineTiltX > -1.5 && turbineTiltX < 1.5) turbineTiltX = 0;
+      if (turbineTiltX > -1.5 && turbineTiltX < 1.5 || !isConnected) turbineTiltX = 0;
 
       let turbineTiltY = Number(this.turbineData.Accelerometer_y);
-      if (turbineTiltY > -1.5 && turbineTiltY < 1.5) turbineTiltY = 0;
+      if (turbineTiltY > -1.5 && turbineTiltY < 1.5 || !isConnected) turbineTiltY = 0;
 
       this.windfarmRot.x = THREE.MathUtils.degToRad((90 * turbineTiltX) / 10.0);
       this.windfarmRot.y = THREE.MathUtils.degToRad((90 * turbineTiltY) / 10.0);
@@ -198,6 +199,8 @@ export class WindfarmHandler {
       this.windMill.rotation.copy(this.windfarmRot);
 
       let bladeSpeed = Number(this.turbineData.SpeedOfWindblade);
+      if(!isConnected)
+        bladeSpeed = 0;
       // bladeSpeed = 1; //in rps
       if (this.blades) this.blades.rotateX(2 * 3.14 * bladeSpeed * this.delta);
 
