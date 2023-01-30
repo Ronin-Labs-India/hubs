@@ -133,6 +133,7 @@ export class WindfarmHandler {
     });
     this.takeActionObj.visible = false;
     this.takeActionObj.matrixAutoUpdate = true;
+    this.takeActionObj.rotation.set(1.38, 2.13, 2.16);
 
     this.takeActionObj.traverse(child => {
       if (child.isMesh) {
@@ -151,7 +152,7 @@ export class WindfarmHandler {
     if (this.turbineData) {
       //step 1 check for alert
       let isAlert = false;
-      if (this.turbineData.SpeedStatus === "ALERT" || true) {
+      if (this.turbineData.SpeedStatus === "ALERT") {
         //High blade rotation speed
         isAlert = true;
         this.alertBg.visible = true;
@@ -185,8 +186,14 @@ export class WindfarmHandler {
       // let mx = new THREE.Matrix4().lookAt(accelerometer,new THREE.Vector3(0,0,0),new THREE.Vector3(0,1,0));
       // let qt = new THREE.Quaternion().setFromRotationMatrix(mx);
 
-      this.windfarmRot.x = THREE.MathUtils.degToRad((90 * Number(this.turbineData.Accelerometer_x)) / 10.0);
-      this.windfarmRot.y = THREE.MathUtils.degToRad((90 * Number(this.turbineData.Accelerometer_y)) / 10.0);
+      let turbineTiltX = Number(this.turbineData.Accelerometer_x);
+      if (turbineTiltX > -1.5 && turbineTiltX < 1.5) turbineTiltX = 0;
+
+      let turbineTiltY = Number(this.turbineData.Accelerometer_y);
+      if (turbineTiltY > -1.5 && turbineTiltY < 1.5) turbineTiltY = 0;
+
+      this.windfarmRot.x = THREE.MathUtils.degToRad((90 * turbineTiltX) / 10.0);
+      this.windfarmRot.y = THREE.MathUtils.degToRad((90 * turbineTiltY) / 10.0);
       this.windfarmRot.z = 0;
       this.windMill.rotation.copy(this.windfarmRot);
 
