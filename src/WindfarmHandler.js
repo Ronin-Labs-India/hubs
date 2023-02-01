@@ -71,18 +71,27 @@ export class WindfarmHandler {
       if (child.isMesh) {
         this.statsText_1 = child;
         child.matrixAutoUpdate = true;
+
+        this.statsText_1._private_text = "";
+        this.statsText_1._needsSync = true;
       }
     });
     this.windfarmParent.children[5].traverse(child => {
       if (child.isMesh) {
         this.statsText_2 = child;
         child.matrixAutoUpdate = true;
+
+        this.statsText_2._private_text = "";
+        this.statsText_2._needsSync = true;
       }
     });
     this.windfarmParent.children[6].traverse(child => {
       if (child.isMesh) {
         this.statsText_3 = child;
         child.matrixAutoUpdate = true;
+
+        this.statsText_3._private_text = "";
+        this.statsText_3._needsSync = true;
       }
     });
 
