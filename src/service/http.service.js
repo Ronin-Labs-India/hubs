@@ -1,11 +1,11 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-  baseURL: "https://adt-backend.azurewebsites.net/api/v1/adtData",
+  baseURL: "https://wind-adt-backend.azurewebsites.net/api/v1/adtData"
 });
 
 axiosInstance.defaults.timeout = 2500000;
-const instanceCreator = ($axios) => ({
+const instanceCreator = $axios => ({
   saveHeader({ key, value }) {
     $axios.defaults.headers.common[key] = value;
   },
@@ -18,16 +18,16 @@ const instanceCreator = ($axios) => ({
   post(url, data) {
     return $axios.post(url, data, {
       headers: {
-        "Content-Type": `application/json`,
-      },
+        "Content-Type": `application/json`
+      }
     });
   },
   post_audio(url, formData) {
     return $axios.post(url, formData, {
       headers: {
-        "Content-Type": `multipart/form-data;`,
+        "Content-Type": `multipart/form-data;`
       },
-      timeout: 60000000,
+      timeout: 60000000
     });
   },
   put(url, data) {
@@ -38,7 +38,7 @@ const instanceCreator = ($axios) => ({
   },
   customRequest(config) {
     return $axios(config);
-  },
+  }
 });
 
 const HTTPService = instanceCreator(axiosInstance);

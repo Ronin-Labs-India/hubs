@@ -25,6 +25,7 @@ import { MediaDevices, MediaDevicesEvents } from "./utils/media-devices-utils";
 import { addComponent, removeEntity } from "bitecs";
 import { MyCameraTool } from "./bit-components";
 import { anyEntityWith } from "./utils/bit-utils";
+import { WindfarmHandler } from "./WindfarmHandler";
 
 export default class SceneEntryManager {
   constructor(hubChannel, authChannel, history) {
@@ -443,6 +444,7 @@ export default class SceneEntryManager {
     this.avatarRig.setAttribute("networked", "template: #remote-avatar; attachTemplateToLocal: false;");
     this.avatarRig.setAttribute("networked-avatar", "");
     this.avatarRig.emit("entered");
+    // WindfarmHandler.getInstance().load();
   };
 
   _runBot = async () => {
@@ -506,8 +508,8 @@ export default class SceneEntryManager {
     const audioStream = audioEl.captureStream
       ? audioEl.captureStream()
       : audioEl.mozCaptureStream
-        ? audioEl.mozCaptureStream()
-        : null;
+      ? audioEl.mozCaptureStream()
+      : null;
 
     if (audioStream) {
       let audioVolume = Number(qs.get("audio_volume") || "1.0");

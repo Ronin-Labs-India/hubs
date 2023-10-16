@@ -1,7 +1,11 @@
 import { number } from "prop-types";
 import * as THREE from "three";
 import authService from "./service/auth.service";
+import windfarm_glb from "./assets/models/custom/windmill_1.glb";
+import { WindfarmUtils } from "./utils_windfarm/WindfarmUtils";
+// import { Utils } from "./utils_windfarm/Utils";
 export class WindfarmHandler {
+  static instance;
   // SpeedOfWindblade = 0;
   // Accelerometer_x = 0;
   // Accelerometer_y = 0;
@@ -35,123 +39,179 @@ export class WindfarmHandler {
       }
     }
   };
+  iotRoomName = ["localhost", "yash-gitex", "yash-verse"];
 
-  constructor(hirarchy) {
-    //
-    console.log("windfarm v 01");
-    this.windfarmParent = hirarchy.children[10];
-    this.windfarmobj = hirarchy.children[10].children[1];
+  // static init = () => {
+  //   ExternalSceneManager.instance = new ExternalSceneManager();
+  // };
+  static getInstance = () => {
+    if (WindfarmHandler.instance === undefined || WindfarmHandler.instance === null)
+      WindfarmHandler.instance = new WindfarmHandler();
 
-    this.windfarmobj.traverse(child => {
-      child.matrixAutoUpdate = true;
-      if (child.name === "Blades") {
-        this.blades = child;
+    return WindfarmHandler.instance;
+  };
+  constructor() {}
+
+  load = envdata => {
+    // check if user entered in iot room
+    let url = window.location.href.toLowerCase();
+    let isRoomFound = false;
+    for (let i = 0; i < this.iotRoomName.length; i++) {
+      let pattern = new RegExp(this.iotRoomName[i]);
+      let result = pattern.test(url);
+      if (result) {
+        isRoomFound = true;
+        break;
       }
-      if (child.name === "WindMill_Controller") {
-        this.windMill = child;
-      }
-      // if(child.name === "Blades"){
-      //     this.blades = child;
-      //     this.blades.matrixAutoUpdate = true;
-      // }
-    });
+    }
 
-    this.alertAnim = this.windfarmParent.children[3];
-    this.alertBg = this.windfarmParent.children[2];
-    // this.alertBg.push(hirarchy.children[21]);
-    // this.alertBg.push(hirarchy.children[22]);
+    if (isRoomFound === true) {
+      console.log("iot room found:" + this.iotRoomName);
+    } else {
+      console.log("iot room not found");
+      return;
+    }
 
-    this.windfarmParent.children[2].children[2].traverse(child => {
-      if (child.isMesh) {
-        this.alertTurbineTxt = child;
-      }
-    });
+    // **********************************
 
-    this.windfarmParent.children[4].traverse(child => {
-      if (child.isMesh) {
-        this.statsText_1 = child;
-        child.matrixAutoUpdate = true;
+    //load hirarchy
+    this.hirarchy = envdata;
 
-        this.statsText_1._private_text = "";
-        this.statsText_1._needsSync = true;
-      }
-    });
-    this.windfarmParent.children[5].traverse(child => {
-      if (child.isMesh) {
-        this.statsText_2 = child;
-        child.matrixAutoUpdate = true;
+    console.log("hirarchy", this.hirarchy);
 
-        this.statsText_2._private_text = "";
-        this.statsText_2._needsSync = true;
-      }
-    });
-    this.windfarmParent.children[6].traverse(child => {
-      if (child.isMesh) {
-        this.statsText_3 = child;
-        child.matrixAutoUpdate = true;
+    //load windfarm
+    WindfarmUtils.load3DModelWithAnimationData(windfarm_glb)
+      .then(animdata => {
+        console.log("windmill loaded : ", animdata.model);
+        this.hirarchy.add(animdata.model);
+        this.windfarmobj = animdata.model;
 
-        this.statsText_3._private_text = "";
-        this.statsText_3._needsSync = true;
-      }
-    });
+        this.windfarmobj.traverse(child => {
+          child.matrixAutoUpdate = true;
+          if (child.name === "Blades") {
+            this.blades = child;
+          }
+          if (child.name === "Windmill_Without_Bones") {
+            this.windMill = child;
+          }
+          if (child.name === "Warning") {
+            this.alertAnim = child;
+          }
+          if (child.name === "Control_Panel") {
+            this.alertBg = child;
+          }
+        });
 
-    console.log("txt", this.alertTurbineTxt._private_text);
+        if (this.hirarchy) {
+          for (let i = 0; i < this.hirarchy.children.length; i++) {
+            switch (this.hirarchy.children[i].name) {
+              case "txt_alert":
+                this.alertTurbineTxt = this.hirarchy.children[i].children[1];
+                this.alertTurbineTxt.matrixAutoUpdate = true;
 
-    // this.alertTiltTxt = this.windfarmParent.children[2];
-    // this.alertTurbineTxt = this.windfarmParent.children[3];
-    this.alertBg.traverse(child => {
-      child.matrixAutoUpdate = true;
-    });
+                this.alertTurbineTxt._private_text = "";
+                this.alertTurbineTxt._needsSync = true;
+                break;
+              case "txt_stat_1":
+                this.statsText_1 = this.hirarchy.children[i].children[1];
+                this.statsText_1.matrixAutoUpdate = true;
 
-    this.alertBg.visible = false;
-    // this.alertTiltTxt.visible = false;
-    this.alertAnim.visible = false;
+                this.statsText_1._private_text = "";
+                this.statsText_1._needsSync = true;
+                break;
+              case "txt_stat_2":
+                this.statsText_2 = this.hirarchy.children[i].children[1];
+                this.statsText_2.matrixAutoUpdate = true;
 
-    // this.windMill.visible = false;
-    // this.windMill.rotateY(3.14);
-    // console.log("tilt applied to windmill", this.windMill.rotation);
+                this.statsText_2._private_text = "";
+                this.statsText_2._needsSync = true;
+                break;
+              case "txt_stat_3":
+                this.statsText_3 = this.hirarchy.children[i].children[1];
+                this.statsText_3.matrixAutoUpdate = true;
 
-    //Update logic , later use aframe tick function to update
-    this.lastDeltaTime = Date.now();
-    setInterval(() => {
-      this.update();
-    }, 1000 / 40);
+                this.statsText_3._private_text = "";
+                this.statsText_3._needsSync = true;
+                break;
+            }
+          }
+          // this.hirarchy.traverse(child => {
+          //   if (child.name == ) {
 
-    //api calling refresh
-    setInterval(() => {
-      this.refreshTurbineApi();
-    }, 5000);
+          //   }
+          // });
 
-    setInterval(() => {
-      this.refreshGeneratorApi();
-    }, 5000);
+          // this.hirarchy.traverse(child => {
+          //   if (child.name == "txt_stat_1") {
 
-    setInterval(() => {
-      this.refreshGearApi();
-    }, 5000);
+          //   }
+          // });
+          // this.hirarchy.traverse(child => {
+          //   if (child.isMesh) {
 
-    setInterval(() => {
-      this.refreshNacelleApi();
-    }, 5000);
+          //   }
+          // });
+          // this.windfarmParent.children[6].traverse(child => {
+          //   if (child.isMesh) {
 
-    window.windfarmobj = this;
+          //   }
+          // });
+        }
 
-    this.takeActionObj = document.getElementById("takeActionWindfarmButton").object3D;
-    this.takeActionObj.addEventListener("interact", () => {
-      this.TakeActionAlert();
-    });
-    this.takeActionObj.visible = false;
-    this.takeActionObj.matrixAutoUpdate = true;
-    this.takeActionObj.rotation.set(1.38, 2.13, 2.16);
+        // console.log("txt", this.alertTurbineTxt._private_text);
 
-    this.takeActionObj.traverse(child => {
-      if (child.isMesh) {
-        child.material.transparent = true;
-        child.material.opacity = 0.5;
-        child.material.needsUpdate = true;
-      }
-    });
-  }
+        // this.alertTiltTxt = this.windfarmParent.children[2];
+        // this.alertTurbineTxt = this.windfarmParent.children[3];
+        this.alertBg.traverse(child => {
+          child.matrixAutoUpdate = true;
+        });
+
+        this.alertBg.visible = false;
+        // this.alertTiltTxt.visible = false;
+        this.alertAnim.visible = false;
+
+        // this.windMill.visible = false;
+        // this.windMill.rotateY(3.14);
+        // console.log("tilt applied to windmill", this.windMill.rotation);
+
+        //Update logic , later use aframe tick function to update
+        this.lastDeltaTime = Date.now();
+        setInterval(() => {
+          this.update();
+        }, 1000 / 40);
+
+        //api calling refresh
+
+        this.refreshTurbineApi();
+
+        this.refreshGeneratorApi();
+
+        this.refreshGearApi();
+
+        this.refreshNacelleApi();
+
+        window.windfarmobj = this;
+
+        this.takeActionObj = document.getElementById("takeActionWindfarmButton").object3D;
+        this.takeActionObj.addEventListener("interact", () => {
+          this.TakeActionAlert();
+        });
+        this.takeActionObj.visible = true;
+        this.takeActionObj.matrixAutoUpdate = true;
+        this.takeActionObj.rotation.set(1.38, 2.13, 2.16);
+
+        this.takeActionObj.traverse(child => {
+          if (child.isMesh) {
+            child.material.transparent = true;
+            child.material.opacity = 0.5;
+            child.material.needsUpdate = true;
+          }
+        });
+      })
+      .catch(e => {
+        console.log("windmill not loaded : ", e);
+      });
+  };
 
   update = () => {
     this.delta = Date.now() - this.lastDeltaTime;
@@ -159,7 +219,7 @@ export class WindfarmHandler {
 
     //simulate turbine data
     if (this.turbineData) {
-      let isConnected = (this.turbineData.Connectivity === "Connected");
+      let isConnected = this.turbineData.Connectivity === "Connected";
       //step 1 check for alert
       let isAlert = false;
       if (this.turbineData.SpeedStatus === "ALERT" && isConnected) {
@@ -167,8 +227,10 @@ export class WindfarmHandler {
         isAlert = true;
         this.alertBg.visible = true;
         // console.log("private txt",this.alertTurbineTxt._private_text);
-        this.alertTurbineTxt._private_text = "High blade rotation speed";
-        this.alertTurbineTxt._needsSync = true;
+        if (this.alertTurbineTxt) {
+          this.alertTurbineTxt._private_text = "High blade rotation speed";
+          this.alertTurbineTxt._needsSync = true;
+        }
         this.alertActionData.Paction = this.alertActionDatabase.turbine.alert_highBaldeRotation.Paction;
       }
       if (this.turbineData.AccelerometerStatus === "ALERT" && isConnected) {
@@ -178,44 +240,44 @@ export class WindfarmHandler {
         // this.alertTiltTxt.visible = true;
 
         // console.log("private txt",this.alertTurbineTxt._private_text);
-        this.alertTurbineTxt._private_text = "Turbine is tilted";
-        this.alertTurbineTxt._needsSync = true;
+        if (this.alertTurbineTxt) {
+          this.alertTurbineTxt._private_text = "Turbine is tilted";
+          this.alertTurbineTxt._needsSync = true;
+        }
         this.alertActionData.Paction = this.alertActionDatabase.turbine.alert_turbineIsTilted.Paction;
       }
       if (!isAlert) {
         this.alertBg.visible = false;
         this.alertAnim.visible = false;
         this.takeActionObj.visible = false;
+        this.alertTurbineTxt._private_text = "";
+        this.alertTurbineTxt._needsSync = true;
       } else {
         this.alertAnim.visible = true;
         this.takeActionObj.visible = true;
       }
 
-      // let accelerometer = new THREE.Euler( Number(this.turbineData.Accelerometer_x),Number(this.turbineData.Accelerometer_y),Number(this.turbineData.Accelerometer_z));
-      // accelerometer = accelerometer.normalize();
-      // let mx = new THREE.Matrix4().lookAt(accelerometer,new THREE.Vector3(0,0,0),new THREE.Vector3(0,1,0));
-      // let qt = new THREE.Quaternion().setFromRotationMatrix(mx);
-
       let turbineTiltX = Number(this.turbineData.Accelerometer_x);
-      if (turbineTiltX > -1.5 && turbineTiltX < 1.5 || !isConnected) turbineTiltX = 0;
+      if ((turbineTiltX > -1.5 && turbineTiltX < 1.5) || !isConnected) turbineTiltX = 0;
 
       let turbineTiltY = Number(this.turbineData.Accelerometer_y);
-      if (turbineTiltY > -1.5 && turbineTiltY < 1.5 || !isConnected) turbineTiltY = 0;
+      if ((turbineTiltY > -1.5 && turbineTiltY < 1.5) || !isConnected) turbineTiltY = 0;
 
-      this.windfarmRot.x = THREE.MathUtils.degToRad((90 * turbineTiltX) / 10.0);
-      this.windfarmRot.y = THREE.MathUtils.degToRad((90 * turbineTiltY) / 10.0);
-      this.windfarmRot.z = 0;
+      this.windfarmRot.x = 0; //THREE.MathUtils.degToRad((90 * turbineTiltX) / 10.0);
+      this.windfarmRot.y = THREE.MathUtils.degToRad(-66.98); //
+      this.windfarmRot.z = THREE.MathUtils.degToRad((-1.0 * 90 * turbineTiltY) / 10.0);
       this.windMill.rotation.copy(this.windfarmRot);
 
       let bladeSpeed = Number(this.turbineData.SpeedOfWindblade);
-      if(!isConnected)
-        bladeSpeed = 0;
+      if (!isConnected) bladeSpeed = 0;
       // bladeSpeed = 1; //in rps
-      if (this.blades) this.blades.rotateX(2 * 3.14 * bladeSpeed * this.delta);
+      if (this.blades) this.blades.rotateZ(2 * 3.14 * bladeSpeed * this.delta);
 
       //show rps
-      this.statsText_2._private_text = "rps: " + this.turbineData.SpeedOfWindblade;
-      this.statsText_2._needsSync = true;
+      if (this.statsText_2) {
+        this.statsText_2._private_text = "rps: " + this.turbineData.SpeedOfWindblade;
+        this.statsText_2._needsSync = true;
+      }
     }
 
     //Simulate generator data
@@ -255,87 +317,86 @@ export class WindfarmHandler {
       let humidity = this.nacelleData.humidity;
       let temperature = this.nacelleData.temperature;
       //show rps
-      this.statsText_1._private_text = "Temp.: " + temperature;
-      this.statsText_1._needsSync = true;
+      if (this.statsText_1) {
+        this.statsText_1._private_text = "Temp.: " + temperature;
+        this.statsText_1._needsSync = true;
+      }
 
-      this.statsText_3._private_text = "";
-      this.statsText_3._needsSync = true;
+      if (this.statsText_3) {
+        this.statsText_3._private_text = "Hum.: " + humidity;
+        this.statsText_3._needsSync = true;
+      }
     }
   };
 
   refreshTurbineApi = () => {
-    if (this.isRefresehTurbineBusy === true) {
-      return;
-    }
-    this.isRefresehTurbineBusy = true;
-
     authService
       .turbineData()
       .then(data => {
-        this.isRefresehTurbineBusy = false;
         this.turbineData = data.turbineName;
         console.log("turbine data", data);
+        setTimeout(() => {
+          this.refreshTurbineApi();
+        }, this.apiTimeGap);
       })
       .catch(err => {
-        this.isRefresehTurbineBusy = false;
         console.log("turbine data err", err);
+        setTimeout(() => {
+          this.refreshTurbineApi();
+        }, this.apiTimeGap);
       });
   };
-
+  apiTimeGap = 2000;
   refreshGeneratorApi = () => {
-    if (this.isRefreshGeneratorBusy === true) {
-      return;
-    }
-    this.isRefreshGeneratorBusy = true;
-
     authService
       .generatorData()
       .then(data => {
-        this.isRefreshGeneratorBusy = false;
         this.generatorData = data.generator;
-        // console.log("turbine data",data);
+        console.log("Generator data", data);
+        setTimeout(() => {
+          this.refreshGeneratorApi();
+        }, this.apiTimeGap);
       })
       .catch(err => {
-        this.isRefreshGeneratorBusy = false;
         // console.log("turbine data err",err);
+        setTimeout(() => {
+          this.refreshGeneratorApi();
+        }, this.apiTimeGap);
       });
   };
 
   refreshGearApi = () => {
-    if (this.isRefreshGearBusy === true) {
-      return;
-    }
-    this.isRefreshGearBusy = true;
-
     authService
       .gearData()
       .then(data => {
-        this.isRefreshGearBusy = false;
         this.gearBoxData = data.gearbox;
-        // console.log("turbine data",data);
+        console.log("Gear data", data);
+        setTimeout(() => {
+          this.refreshGearApi();
+        }, this.apiTimeGap);
       })
       .catch(err => {
-        this.isRefreshGearBusy = false;
         // console.log("turbine data err",err);
+        setTimeout(() => {
+          this.refreshGearApi();
+        }, this.apiTimeGap);
       });
   };
 
   refreshNacelleApi = () => {
-    if (this.isRefreshNacelleBusy === true) {
-      return;
-    }
-    this.isRefreshNacelleBusy = true;
-
     authService
       .nacelleData()
       .then(data => {
-        this.isRefreshNacelleBusy = false;
         this.nacelleData = data.nacelle;
-        // console.log("turbine data",data);
+        console.log("nacelle data", data);
+        setTimeout(() => {
+          this.refreshNacelleApi();
+        }, this.apiTimeGap);
       })
       .catch(err => {
-        this.isRefreshNacelleBusy = false;
-        // console.log("turbine data err",err);
+        setTimeout(() => {
+          this.refreshNacelleApi();
+        }, this.apiTimeGap);
       });
   };
 
